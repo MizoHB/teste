@@ -1,6 +1,4 @@
 #library
-from numpy import number
-from pip import main
 import selenium #importing selenium and the necessary options options to login to FB
 from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as EC
