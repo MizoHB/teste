@@ -1,0 +1,8 @@
+selenium
+webdriver-manager
+requests
+datetime
+bs4
+pandas
+pywhatkit
+

@@ -18,15 +18,16 @@ import pandas as pd
 #requests for call ur phone using script sinch
 import requests
 #pywhatkit for send msg whatssap
-
+import pywhatkit
 
 #lists
 content_list=[]
 time_list=[]
 name_list=[]
-old_time = time_list
 
-# regoniste if you have new poste
+old_time = len(content_list)
+
+
 
 
 #get facebook page
@@ -40,9 +41,9 @@ def get_page_fb():
     #accept cookies
     #cookies = WebDriverWait(driver, 30).until(EC.element_to_be_clickable((By.XPATH, '//button[@class="_42ft _4jy0 _9o-t _4jy3 _4jy1 selected _51sy"]'))).click()
     # email=driver.find_element_by_id("email")
-    # email.send_keys("hamza.bg.77")        
+    # email.send_keys("")        
     # password=driver.find_element_by_id("pass")
-    # password.send_keys("Hamza__01")
+    # password.send_keys("")
     # sleep(1)
     # login=driver.find_element_by_name("login")
     # login.click()
@@ -87,12 +88,13 @@ def get_page_fb():
             driver.execute_script("window.scrollTo(0, " + str(y) + ")")
             y += 500
             sleep(3)
-        driver.close()      
+        driver.quit()      
     print("______________________")
     print(time)
 
 #if script find New poste call your phone
 def call_phone():
+    #import here twilio code with
     url = "https://calling.api.sinch.com/calling/v1/callouts"
     payload="{\n  \"method\": \"conferenceCallout\",\n  \"conferenceCallout\": {\n    \"cli\": \"+447520651168\",\n    \"destination\": {\n      \"type\": \"number\",\n      \"endpoint\": \"+212623889623\"\n    },\n   \"locale\": \"en-US\",\n    \"greeting\": \"\",\n    \"conferenceId\": \"4yl70aourhh\"\n  }\n}"
     headers = {
@@ -105,31 +107,42 @@ def call_phone():
 #send watssap msg if code working or not
 def whatMsg():
     
-    num='+212607649781'
+    num='+212607649781'#enter your number her
     now = datetime.datetime.now()
     h =now.hour
     m =int(now.minute)+1
     try:
         import pywhatkit
-        if (old_time != time_list):
+        if (old_time == len(content_list)):
             pywhatkit.sendwhatmsg(num,"check your facebook",h,m)
-        else:
-            pywhatkit.sendwhatmsg(num,"check your code",h,m)
     except:
         import pywhatkit
-        if (old_time != time_list):
-            pywhatkit.sendwhatmsg(num,"check your facebook",h,m)
-        else:
+        try:
+            if (old_time == len(content_list)):
+                pywhatkit.sendwhatmsg(num,"check your facebook",h,m)
+        except:
             pywhatkit.sendwhatmsg(num,"check your code",h,m)
+
     
+def check_for_what():
+    num='+212607649781'#enter your number her
+    now = datetime.datetime.now()
+    h =now.hour
+    m =int(now.minute)+1
+    
+    pywhatkit.sendwhatmsg(num,"don't worry i'm working ...",h,m)
 
 def run():
     get_page_fb()
     # login_fb()
     # git_post()
+
     whatMsg()
-    if old_time != time_list:
-        call_phone()
+    check_for_what()
+
     
 while True:
-    run()
+    try:
+        run()
+    except:
+        run()
